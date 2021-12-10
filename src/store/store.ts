@@ -8,7 +8,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    coins:null
+    coins:null,
+    coin:null
   },
   actions,
   mutations,

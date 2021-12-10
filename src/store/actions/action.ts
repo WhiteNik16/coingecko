@@ -22,6 +22,26 @@ export default {
       const err = error as AxiosError<IResponseError>
       console.log(err.response?.data)
     }
+  },
+  async getCoin({ commit }: ActionContext<any, any>, id: string ): Promise<void> {
+    try {
+      const response = await api.get(`/coins/${id}`, {
+        params: {
+          localization: true,
+          tickers: true,
+          market_data: true,
+          community_data: true,
+          developer_data: true,
+          sparkline: true
+        }
+      });
+      const coin:Array<any> = response.data;
+      console.log(coin);
+      commit('SET_COIN', coin)
+    } catch (error) {
+      const err = error as AxiosError<IResponseError>
+      console.log(err.response?.data)
+    }
   }
 
 }

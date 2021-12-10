@@ -1,7 +1,7 @@
 .coins{
 
   padding-top: 15px;
-  margin-left: 5px;
+
   padding-bottom:5px ;
   :hover{
     background: cadetblue;
@@ -12,6 +12,7 @@
   }
 }
 .coin{
+  margin-left: 15px;
   display: flex;
   justify-content: space-around;
   padding-top: 15px;
