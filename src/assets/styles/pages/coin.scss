@@ -1,0 +1,26 @@
+.coins{
+
+  padding-top: 15px;
+  margin-left: 5px;
+  padding-bottom:5px ;
+  :hover{
+    background: cadetblue;
+  }
+  img{
+    margin-left:5px ;
+    height: 25px;
+  }
+}
+.coin{
+  display: flex;
+  justify-content: space-around;
+  padding-top: 15px;
+  font-size: 16px;
+  font-weight: 700;
+  padding-bottom: 5px;
+  border-bottom: 0.1px solid #71a1ef;
+  &__name, &__price ,&__change_24h ,&__total-volume ,&__change_market-cap{
+    width: 200px;
+    text-align: start;
+  }
+}
