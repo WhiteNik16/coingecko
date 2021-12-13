@@ -5,7 +5,7 @@
   <div class="coin__price" >{{ coin.current_price.toLocaleString()}} {{ currency.toUpperCase() }} </div>
   <div class="coin__change_24h" :style="colorOfChangePrice">{{coin.price_change_24h}}  {{ currency.toUpperCase() }} </div>
   <div class="coin__total-volume">{{coin.total_volume.toLocaleString()}}</div>
-  <div class="coin__change_market-cap"> {{coin.market_cap.toLocaleString()}}</div>
+  <div  class="coin__change_market-cap"> {{coin.market_cap.toLocaleString()}}</div>
   </div>
 </div>
 </template>
