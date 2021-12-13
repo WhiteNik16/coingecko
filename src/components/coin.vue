@@ -2,10 +2,10 @@
 <div class="coins">
   <div class="coin" @click="transitionToPage(coin)">
   <div class="coin__name"><span>{{coin.name}}</span><img :src="coin.image" ></div>
-  <div class="coin__price" >${{coin.current_price.toLocaleString()}}</div>
-  <div class="coin__change_24h" :style="colorOfChangePrice">$ {{coin.price_change_24h}}</div>
-  <div class="coin__total-volume">${{coin.total_volume.toLocaleString()}}</div>
-  <div class="coin__change_market-cap">${{coin.market_cap.toLocaleString()}}</div>
+  <div class="coin__price" >{{ coin.current_price.toLocaleString()}} {{ currency.toUpperCase() }} </div>
+  <div class="coin__change_24h" :style="colorOfChangePrice">{{coin.price_change_24h}}  {{ currency.toUpperCase() }} </div>
+  <div class="coin__total-volume">{{coin.total_volume.toLocaleString()}}</div>
+  <div class="coin__change_market-cap"> {{coin.market_cap.toLocaleString()}}</div>
   </div>
 </div>
 </template>
@@ -19,6 +19,8 @@ export default class coin extends Vue {
 
   @Getter
   public coins!:any
+  @Getter
+  public currency!:string
 
   public transitionToPage(coin: Record<string, any>): void {
     this.$emit('transitionToPage', coin)

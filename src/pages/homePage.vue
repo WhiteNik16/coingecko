@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { api } from "@/api/config";
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import { Action, Getter } from "vuex-class";
 import vCoin from "@/components/coin.vue";
 @Component({
@@ -34,6 +34,9 @@ export default class homePage extends Vue {
 
   @Getter
   public coins!:any
+  @Getter
+  public currency!:string
+
 
 
 
@@ -41,13 +44,9 @@ export default class homePage extends Vue {
     let data = coin.id
     this.$router.push({ name: 'coinPage', params: { id: data } })
   }
-
-
-
-
   async mounted() {
     await this.getCoins('usd');
-    console.log("123");
+
   }
 
 

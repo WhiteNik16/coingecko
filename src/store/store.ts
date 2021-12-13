@@ -9,7 +9,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     coins:null,
-    coin:null
+    coin:null,
+    currency:'usd',
   },
   actions,
   mutations,

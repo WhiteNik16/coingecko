@@ -4,6 +4,12 @@ import { AxiosError } from "axios";
 import { IResponseError } from "@/api/types/types";
 
 export default {
+  setCurrency({commit, dispatch}: ActionContext<any, any>, currency: string):void {
+    commit('SET_CURRENCY', currency)
+    dispatch('getCoins',currency)
+
+  },
+
   async getCoins({ commit }: ActionContext<any, any>, currency: string ): Promise<void> {
     try {
       const response = await api.get("/coins/markets", {
