@@ -13,18 +13,12 @@
         :default-selected-keys="['2']"
         :style="{ lineHeight: '64px' }"
       >
-        <a-menu-item key="1">
-          <router-link to="/">
-          Home
-        </router-link>
-        </a-menu-item>
+<!--        <a-menu-item key="1">-->
+<!--          <router-link to="/">-->
+<!--          Home-->
+<!--        </router-link>-->
+<!--        </a-menu-item>-->
 
-        <a-menu-item key="2">
-          nav 2
-        </a-menu-item>
-        <a-menu-item key="3">
-          nav 3
-        </a-menu-item>
         <a-select default-value="usd" style="width: 120px" @change="choiceCurrency">
           <a-select-option value="usd">
             USD

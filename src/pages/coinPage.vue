@@ -18,7 +18,7 @@
    <div class="coinPage__header-info">
      <p v-if="coin.market_data.circulating_supply" >Circulating Supply: {{coin.market_data.circulating_supply.toLocaleString() }} {{ coin.symbol}}</p>
      <p v-if="coin.market_data.max_supply">Max Supply: {{coin.market_data.max_supply.toLocaleString()}} {{ coin.symbol }}</p>
-     <p v-if="coin.market_data.high_24h">Max Price(24h): {{coin.market_data.high_24h[`${currency}`].toLocaleString()}} {{  currency.toUpperCase() }}</p>
+     <p v-if="coin.market_data.high_24h">Max Price(24h): {{coin.market_data.high_24h[`${currency}`].toFixed(amountDecimalsPlaces).toLocaleString()}} {{  currency.toUpperCase() }}</p>
    </div>
     <div class="coinPage__header-infoCommunity" v-if="coin.links">
     <span id="tittle">Info</span>
@@ -107,7 +107,6 @@ export default class coinPage extends Vue{
       }
       )
 
-    console.log(this.statisticValueCoin);
     this.data={
       labels:this.statisticValueCoin.data.prices.map((e:Array<number>) => convertTimestamp(e[0]) ),
       datasets: [

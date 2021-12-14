@@ -1,6 +1,6 @@
 <template>
   <div class="homePage" v-if="coins">
-    <div class="coins">
+    <div class="coins-header">
       <div class="coin">
         <div class="coin__name"><span>Name</span></div>
         <div class="coin__price">Price</div>
