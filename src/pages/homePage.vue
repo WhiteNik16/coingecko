@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <v-coin v-for="coin in coins" :key="coin.id" :coin="coin" @transitionToPage="transitionToPage"></v-coin>
+    <v-coin v-for="coin in coins" :key="coin.id" :coin="coin"></v-coin>
   </div>
   <a-skeleton v-else />
 </template>
@@ -40,10 +40,6 @@ export default class homePage extends Vue {
 
 
 
-  public transitionToPage(coin: Record<string, any>): void {
-    let data = coin.id
-    this.$router.push({ name: 'coinPage', params: { id: data } })
-  }
   async mounted() {
     await this.getCoins('usd');
 
