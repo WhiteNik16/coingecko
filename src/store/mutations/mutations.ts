@@ -1,13 +1,14 @@
+import { ICoin, ICoins, IState } from "@/types/types";
 
 export default {
-SET_COINS:(state:any, coins:Array<any>) =>{
+SET_COINS:(state:IState, coins:ICoins) =>{
   state.coins=coins
   
 },
-  SET_COIN:(state:any, coin:Array<any>) =>{
+  SET_COIN:(state:IState, coin:ICoin) =>{
   state.coin = coin
 },
-  SET_CURRENCY:(state:any, currency:string) =>{
+  SET_CURRENCY:(state:IState, currency:string) =>{
   state.currency=currency
   },
 

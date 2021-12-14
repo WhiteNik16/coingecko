@@ -7,7 +7,7 @@ import actions from './actions/action'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
+  state:{
     coins:null,
     coin:null,
     currency:'usd',

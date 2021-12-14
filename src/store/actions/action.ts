@@ -2,6 +2,7 @@ import { api } from "@/api/config";
 import { ActionContext } from "vuex";
 import { AxiosError } from "axios";
 import { IResponseError } from "@/api/types/types";
+import { ICoin, ICoins, IState } from "@/types/types";
 
 export default {
   setCurrency({commit, dispatch}: ActionContext<any, any>, currency: string):void {
@@ -10,9 +11,9 @@ export default {
 
   },
 
-  async getCoins({ commit }: ActionContext<any, any>, currency: string ): Promise<void> {
+  async getCoins({ commit }: ActionContext<IState, IState>, currency: string ): Promise<void> {
     try {
-      const response = await api.get("/coins/markets", {
+      const response = await api.get<ICoins>("/coins/markets", {
         params: {
           vs_currency: currency,
           order: "market_cap_desc",
@@ -21,7 +22,7 @@ export default {
           sparkline: false
         }
       });
-      const coins:Array<any> = response.data;
+      const coins = response.data;
       console.log(coins);
       commit('SET_COINS', coins)
     } catch (error) {
@@ -29,9 +30,9 @@ export default {
       console.log(err.response?.data)
     }
   },
-  async getCoin({ commit }: ActionContext<any, any>, id: string ): Promise<void> {
+  async getCoin({ commit }: ActionContext<IState, IState>, id: string ): Promise<void> {
     try {
-      const response = await api.get(`/coins/${id}`, {
+      const response = await api.get<ICoin>(`/coins/${id}`, {
         params: {
           localization: true,
           tickers: true,
@@ -41,7 +42,7 @@ export default {
           sparkline: true
         }
       });
-      const coin:Array<any> = response.data;
+      const coin = response.data;
       console.log(coin);
       commit('SET_COIN', coin)
     } catch (error) {
