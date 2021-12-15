@@ -20,7 +20,7 @@
 <!--        </a-menu-item>-->
 
         <a-select default-value="usd" style="width: 120px" @change="choiceCurrency">
-          <a-select-option v-for=" currencyItem in currencyList" :key="currencyItem" :value="currencyItem">
+          <a-select-option v-for=" currencyItem in currenciesList" :key="currencyItem" :value="currencyItem">
             {{ currencyItem.toUpperCase() }}
           </a-select-option>
         </a-select>
@@ -33,16 +33,17 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { Action } from "vuex-class";
-import { ECurrency } from "@/types/types";
+import { currencyList} from "@/constatnts/constants";
+
 @Component
 export default class vHeader extends Vue {
-  public  currencyList:Array<string> = [ECurrency[0], ECurrency[1], ECurrency[2]]
+
   @Action
   setCurrency!: (currency:string) => void
 
+  public currenciesList = currencyList
 
-
-  public choiceCurrency(value:string):void{
+public choiceCurrency(value:string):void{
   this.setCurrency(value)
   }
 

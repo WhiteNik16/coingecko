@@ -1,8 +1,9 @@
 export enum ECurrency {
-  usd,
-  eur,
-  uah,
+  usd='usd',
+  eur='eur',
+  uah='uah',
  }
+export type Currency = keyof typeof ECurrency
 
  export interface ICoin{
    id:string
@@ -10,12 +11,11 @@ export enum ECurrency {
    market_data:Record<string, any>
    [k:string]: any
  }
- export interface ICoins extends Array<ICoin>{
-  [k:string]:any
- }
+export type ICoins = ICoin[]
+
  export interface IState{
   coin:ICoin | null
   coins:ICoins | null
-  currency:string
+  currency:Currency
  }
 

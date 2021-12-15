@@ -1,4 +1,4 @@
-import { ICoin, ICoins, IState } from "@/types/types";
+import { Currency, ICoin, ICoins, IState } from "@/types/types";
 
 export default {
 SET_COINS:(state:IState, coins:ICoins) =>{
@@ -8,7 +8,7 @@ SET_COINS:(state:IState, coins:ICoins) =>{
   SET_COIN:(state:IState, coin:ICoin) =>{
   state.coin = coin
 },
-  SET_CURRENCY:(state:IState, currency:string) =>{
+  SET_CURRENCY:(state:IState, currency:Currency) =>{
   state.currency=currency
   },
 

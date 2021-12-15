@@ -32,7 +32,10 @@
     }
   }
   &__body{
+
     &-chart-date{
+      padding-left: 5%;
+      display: inline;
       span{
         font-size: 17px;
       }
@@ -46,15 +49,19 @@
       max-width: 120%;
       justify-content: center;
       min-width: 200px;
+      &-exchange{
+        margin-left: 10px;
+        position: relative;
+        top:7px;
+      }
+      &-select{
+        margin-left: 10px;
+        font-size: 20px;
+      }
       a-select, a-input{
         display: block;
         max-width: 30%;
 
-      }
-      i{
-        margin-left: 10px;
-        position: relative;
-        top:7px;
       }
       span{
         display: block;
