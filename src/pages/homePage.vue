@@ -1,8 +1,19 @@
 <template>
   <div class="homePage" v-if="coins">
     <div class="coins-header">
+      <div class="coins-header__search">
+        <a-input type="text" v-model="searchValue"/>
+        <select-node class="coins-header__select" v-if="searchValue">
+          <option  @click="$router.push({ name: 'coinPage', params: { id: coin.id } })" v-for="coin in listCoins" :key="coin.id">{{coin.name}}</option>
+        </select-node>
+      </div>
+
       <div class="coin">
-        <div class="coin__name"><span>Name</span></div>
+
+        <div class="coin__name">
+
+          <span>Name</span>
+        </div>
         <div class="coin__price">Price</div>
         <div class="coin__change_24h">Price change 24h</div>
         <div class="coin__total-volume">Total volume</div>
@@ -10,7 +21,7 @@
       </div>
     </div>
 
-    <v-coin v-for="coin in coins" :key="coin.id" :coin="coin"></v-coin>
+    <v-coin style="position: relative" v-for="coin in coins" :key="coin.id" :coin="coin"></v-coin>
   </div>
   <a-skeleton v-else />
 </template>
@@ -28,20 +39,27 @@ import { ICoins } from "@/types/types";
 })
 export default class homePage extends Vue {
 
-
+  public searchValue = ''
 
   @Action
-  public getCoins!: (currency:string) =>Promise<void>
+  public getCoins!: (currency: string) => Promise<void>
+  @Action
+  public getCoinsForSearch!: (currency: string) => Promise<void>
+
 
   @Getter
-  public coins!:ICoins
+  public coins!: ICoins
   @Getter
-  public currency!:string
+  public currency!: string
+  @Getter
+  public searchCoins!: ICoins
 
-
-
+  get listCoins(): ICoins {
+    return this.searchCoins.filter(item => item.name.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1)
+  }
 
   async mounted() {
+    await this.getCoinsForSearch('usd')
     await this.getCoins('usd');
 
   }

@@ -14,6 +14,7 @@ export type Currency = keyof typeof ECurrency
 export type ICoins = ICoin[]
 
  export interface IState{
+   coinsForSearch:ICoins | null
   coin:ICoin | null
   coins:ICoins | null
   currency:Currency

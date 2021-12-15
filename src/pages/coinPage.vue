@@ -48,7 +48,7 @@
     <div v-else class="coinPage__body-converter-items">
     <a-input :placeholder="coin.name" v-model="inputAmountCoin" />
       <i class="fa fa-exchange coinPage__body-converter-items-exchange" aria-hidden="true" @click="stateConverter=!stateConverter"></i>
-    <div class="coinPage__body-converter-items-select"><a-select :default-value="localCurrency" v-model="localCurrency" style="width: 80px"> <a-select-option v-for="currencyItem in currenciesList" :key="currencyItem" :value="currencyItem">
+    <div class="coinPage__body-converter-items-select"><a-select  :default-value="localCurrency" v-model="localCurrency" style="width: 80px"> <a-select-option v-for="currencyItem in currenciesList" :key="currencyItem" :value="currencyItem">
             {{ currencyItem.toUpperCase() }}
           </a-select-option>
          </a-select>: {{ calcAmountCurrency.toLocaleString() }}</div>

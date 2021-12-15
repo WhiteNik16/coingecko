@@ -9,6 +9,7 @@ Vue.use(Vuex);
 
 export default new Vuex.Store<IState>({
   state:{
+    coinsForSearch:null,
     coins:null,
     coin:null,
     currency:ECurrency.usd,

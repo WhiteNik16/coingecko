@@ -1,8 +1,11 @@
-
+import { IState } from "@/types/types";
 
 
 export default {
-  coins(state: any) {
+  searchCoins(state:IState) {
+    return state.coinsForSearch
+  },
+  coins(state: IState) {
     return state.coins
   }, coin(state: any) {
     return state.coin

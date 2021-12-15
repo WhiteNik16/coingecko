@@ -1,5 +1,31 @@
 .coins-header{
-  padding-top: 15px;
-
+  padding-top: 30px;
   padding-bottom:5px ;
+  &__search{
+    position: absolute;
+    z-index: 2;
+    top:70px;
+    left: 5.5%;
+  }
+  &__select{
+    display: block;
+    min-width: 203px;
+
+    option{
+
+      width: 204px;
+      color: #011633;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 1%;
+
+      border-bottom: 0.1px solid #a9a9a9;
+      background: #ffffff;
+      cursor: pointer;
+      &:hover{
+        background: #b1bdce;
+      }
+    }
+
+  }
 }
