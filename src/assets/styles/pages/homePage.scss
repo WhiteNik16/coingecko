@@ -2,6 +2,9 @@
   padding-top: 30px;
   padding-bottom:5px ;
   &__search{
+    span{
+      font-size: 20px;
+    }
     position: absolute;
     z-index: 2;
     top:70px;

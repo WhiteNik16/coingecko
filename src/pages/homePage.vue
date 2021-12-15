@@ -2,9 +2,9 @@
   <div class="homePage" v-if="coins">
     <div class="coins-header">
       <div class="coins-header__search">
-        <a-input type="text" v-model="searchValue"/>
+        <span>Search coin: </span><a-input placeholder="Bitcoin" type="text" v-model="searchValue"/>
         <select-node class="coins-header__select" v-if="searchValue">
-          <option  @click="$router.push({ name: 'coinPage', params: { id: coin.id } })" v-for="coin in listCoins" :key="coin.id">{{coin.name}}</option>
+          <option  @click="$router.push({ name: 'coinPage', params: { id: coin.id } })" v-for="coin in listCoins.slice( 0, 20)" :key="coin.id">{{coin.name}}</option>
         </select-node>
       </div>
 

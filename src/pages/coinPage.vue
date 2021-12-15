@@ -91,6 +91,7 @@ import { Action, Getter } from "vuex-class";
 import { api } from "@/api/config";
 import { ECurrency, ICoin } from "@/types/types";
 import { currencyList} from "@/constatnts/constants";
+import { convertTimestamp } from "@/helpers/timeHelper";
 
 @Component({
   components:{
@@ -214,16 +215,34 @@ export default class coinPage extends Vue{
         }
       );
       console.log(this.statisticValueCoin);
-      this.data={
-        labels:this.statisticValueCoin.data.prices.map((e:Array<number>) => new Intl.DateTimeFormat('en-GB').format(e[0])) ,
-        datasets: [
-          {
-            label:this.currency.toUpperCase()+'/'+this.coin.name+': '+this.coin.market_data.current_price[`${this.currency}`],
-            backgroundColor: '#15bbf1',
-            data: this.statisticValueCoin.data.prices.map((e:Array<number>) => e[1] )
-          }
-        ]
+      console.log(chartDateUnixFrom, chartDateUnixTo );
+      if(chartDateUnixTo-chartDateUnixFrom<=86400){
+        this.data={
+
+          labels:this.statisticValueCoin.data.prices.map((e:Array<number>) => convertTimestamp(e[0])) ,
+          datasets: [
+            {
+              label:this.currency.toUpperCase()+'/'+this.coin.name+': '+this.coin.market_data.current_price[`${this.currency}`],
+              backgroundColor: '#15bbf1',
+              data: this.statisticValueCoin.data.prices.map((e:Array<number>) => e[1] )
+            }
+          ]
+        }
       }
+      else {
+        this.data={
+
+          labels:this.statisticValueCoin.data.prices.map((e:Array<number>) => new Intl.DateTimeFormat('en-GB').format(e[0])) ,
+          datasets: [
+            {
+              label:this.currency.toUpperCase()+'/'+this.coin.name+': '+this.coin.market_data.current_price[`${this.currency}`],
+              backgroundColor: '#15bbf1',
+              data: this.statisticValueCoin.data.prices.map((e:Array<number>) => e[1] )
+            }
+          ]
+        }
+      }
+
     }
   }
 }
