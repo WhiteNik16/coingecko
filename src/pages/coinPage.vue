@@ -90,7 +90,7 @@ import lineChart from '@/components/lineChart.vue'
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { Action, Getter } from "vuex-class";
 import { api } from "@/api/config";
-import { ECurrency } from "@/types/types";
+import { ECurrency, ICoin } from "@/types/types";
 @Component({
   components:{
     lineChart
@@ -101,7 +101,7 @@ export default class coinPage extends Vue{
   public getCoin!: (id:string) =>Promise<void>
 
   @Getter
-  public coin!:any
+  public coin!:ICoin
 
   @Getter
   public currency!:string
@@ -111,12 +111,12 @@ export default class coinPage extends Vue{
   public inputAmountCurrency:number|string=''
   public inputAmountCoin:number|string=''
   private stateConverter=true
-  public statisticValueCoin:any=null
+  public statisticValueCoin:any = null
   public amountDays=30
-  public data:any = null
+  public data:Record<string, any>|null = null
   public visiableEditDate=true
-  public chartDateTo:any=null
-  public chartDateFrom:any=null
+  public chartDateTo:string| number =''
+  public chartDateFrom:string| number =''
 
 
   async created(){
@@ -204,8 +204,8 @@ export default class coinPage extends Vue{
   }
   public async changeDate():Promise<void>{
     if(this.chartDateFrom && this.chartDateTo){
-      this.chartDateFrom=Date.parse(this.chartDateFrom)/1000
-      this.chartDateTo=Date.parse(this.chartDateTo)/1000
+      this.chartDateFrom=Date.parse(this.chartDateFrom.toString())/1000
+      this.chartDateTo=Date.parse(this.chartDateTo.toString())/1000
       console.log(this.chartDateFrom, this.chartDateTo);
       this.statisticValueCoin= await api.get(`/coins/${this.coin.id}/market_chart/range`, {
           params: {

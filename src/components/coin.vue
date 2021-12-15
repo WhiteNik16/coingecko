@@ -13,12 +13,13 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Getter } from "vuex-class";
+import { ICoins } from "@/types/types";
 @Component
 export default class coin extends Vue {
  @Prop()readonly coin: any
 
   @Getter
-  public coins!:any
+  public coins!:ICoins
   @Getter
   public currency!:string
 

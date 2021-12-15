@@ -20,6 +20,7 @@ import { api } from "@/api/config";
 import { Component, Vue, Watch } from "vue-property-decorator";
 import { Action, Getter } from "vuex-class";
 import vCoin from "@/components/coin.vue";
+import { ICoins } from "@/types/types";
 @Component({
   components:{
     vCoin,
@@ -33,7 +34,7 @@ export default class homePage extends Vue {
   public getCoins!: (currency:string) =>Promise<void>
 
   @Getter
-  public coins!:any
+  public coins!:ICoins
   @Getter
   public currency!:string
 

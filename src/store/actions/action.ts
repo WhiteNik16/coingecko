@@ -5,7 +5,7 @@ import { IResponseError } from "@/api/types/types";
 import { ICoin, ICoins, IState } from "@/types/types";
 
 export default {
-  setCurrency({commit, dispatch}: ActionContext<any, any>, currency: string):void {
+  setCurrency({commit, dispatch}: ActionContext<IState, IState>, currency: string):void {
     commit('SET_CURRENCY', currency)
     dispatch('getCoins',currency)
 
