@@ -1,8 +1,14 @@
-export function convertTimestamp(timestamp:string | number):string {
-  const d = new Date(+timestamp)
-    //  yyyy = d.getFullYear(),
-    // mm = ('0' + (d.getMonth() + 1)).slice(-2),  // Months are zero based. Add leading 0.
-    // dd = ('0' + d.getDate()).slice(-2);      // Add leading 0.
-  const time = new Intl.DateTimeFormat('en-US').format(d);
+export function convertTimestamp(timestamp: string | number): string {
+  const d = new Date(+timestamp);
+  let hh: string | number = d.getHours(),
+    mm: string | number = d.getMinutes();
+  if (+hh < 10) {
+    hh = "0" + hh;
+  }
+  if (+mm < 10) {
+    mm = "0" + mm;
+  }
+  // const time = new Intl.DateTimeFormat('en-US').format(d);
+  const time = hh + ":" + mm;
   return time;
 }

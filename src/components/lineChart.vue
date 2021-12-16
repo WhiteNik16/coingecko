@@ -1,31 +1,61 @@
-
+<template>
+  <div>
+    <apexcharts type="line" width="70%" :options="options" :series="series"></apexcharts>
+  </div>
+</template>
 <script>
-import { Line } from 'vue-chartjs'
+import VueApexCharts from 'vue-apexcharts'
 export default {
   name: "lineChart",
-    extends: Line,
-  props: {
-    chartData:{
-      type: Object,
-      default: null,
-      required:true
+  components: {
+    apexcharts: VueApexCharts,
+  },
+  data: function() {
+    return {
+      options: {
+        chart: {
+          id: 'Line-chart'
+        },
+        colors: ['#00faf3'],
+        xaxis: {
+          type: "datetime",
+          // categories: this.chartData.labels
+        }
+      },
+      title: {
+        text: this.chartData.label,
+        align: 'left',
+        style: {
+          fontSize: "16px",
+          color: '#666'
+        },
+      },
+        series: [{
+          name:this.chartData.label,
+          data: this.chartData.data
+        }],
+      }
     },
-    options:{
+  props: {
+    chartData: {
       type: Object,
-      default: null
-    }
+      required: true,
+    },
   },
-  mounted () {
-    this.renderChart(this.chartData, {responsive: true, maintainAspectRatio: false})
+  watch: {
+    chartData: function(){
+      this.xaxis={
+        categories: this.chartData.labels,
+        type: "datetime",
+      }
+      this.series = [{
+        data: this.chartData.data
+      }]
+
+
+    }
   },
 
-  watch:{
-    chartData:function(){
-      this.renderChart(this.chartData, {responsive: true, maintainAspectRatio: false})
-    }
 }
-  }
 </script>
-<style>
-
-</style>
+<style></style>

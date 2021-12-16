@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
-import Home from '../pages/homePage.vue'
-import coinPage from '../pages/coinPage.vue'
+import Home from "../pages/homePage.vue";
+import coinPage from "../pages/coinPage.vue";
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
@@ -12,7 +12,7 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: `/coinPage/:id`,
-    name: 'coinPage',
+    name: "coinPage",
     component: coinPage,
     props: true,
   },
