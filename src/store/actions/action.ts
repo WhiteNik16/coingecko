@@ -37,16 +37,15 @@ export default {
   },
 
   async getCoins(
-    { commit }: ActionContext<IState, IState>,
-    currency: Currency
-  ): Promise<void> {
+    { commit }: ActionContext<IState, IState>, {currency, page}:Record<string, string>): Promise<void> {
     try {
+      console.log(page);
       const response = await api.get<ICoins>("/coins/markets", {
         params: {
           vs_currency: currency,
           order: "market_cap_desc",
           per_page: 20,
-          page: 1,
+          page: page,
           sparkline: false,
         },
       });

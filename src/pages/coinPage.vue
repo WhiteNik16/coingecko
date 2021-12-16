@@ -3,7 +3,7 @@
     <div class="coinPage__header">
       <div class="coinPage__header-coin">
         <img :src="coin.image.small" />
-        <span id="nameCoin">{{ coin.name }}({{ coin.symbol }})</span>
+        <span id="nameCoin"><span>Name:</span>{{ coin.name }}({{ coin.symbol }})</span>
         <div class="coinPage__header-coin-price">
           <span id="priceCoin"
             >{{
@@ -151,7 +151,7 @@
             <a-radio-button value="90"> 90 days </a-radio-button>
           </a-radio-group>
           <div class="coinPage__body-chart-date">
-            <span> From: </span
+            <div class="coinPage__body-chart-date-item"><span> From: </span
             ><a-input
               :max="maxDateChartFrom"
               v-model="chartDateFrom"
@@ -159,6 +159,8 @@
               type="date"
               size="small"
             />
+            </div>
+            <div class="coinPage__body-chart-date-item">
             <span> To: </span
             ><a-input
               :max="maxDateChartTo"
@@ -167,6 +169,7 @@
               type="date"
               size="small"
             />
+            </div>
             <button class="ant-input-search-enter-button" @click="changeDate">
               OK
             </button>
@@ -232,7 +235,7 @@ export default class coinPage extends Vue {
 
     this.data = {
           label: this.currency.toUpperCase() + "/" + this.coin.name + ": ",
-          data: this.statisticValueCoin.data.prices };
+          data: this.statisticValueCoin.data.prices.map((e:any) => [e[0],e[1].toFixed(this.amountDecimalsPlaces)]) };
     this.localCurrency = this.currency;
   }
   @Watch("updateCharts")
@@ -250,7 +253,7 @@ export default class coinPage extends Vue {
       );
     this.data = {
           label: this.currency.toUpperCase() + "/" + this.coin.name + ": " + this.coin.market_data.current_price[`${this.currency}`],
-          data: this.statisticValueCoin.data.prices,
+          data: this.statisticValueCoin.data.prices.map((e:any) => [e[0],e[1].toFixed(this.amountDecimalsPlaces)]),
     };
   }
 
@@ -288,6 +291,7 @@ export default class coinPage extends Vue {
     }
     return "color:red";
   }
+
   get maxDateChartTo(): string {
     return new Intl.DateTimeFormat("fr-CA").format(Date.now());
   }
@@ -322,12 +326,12 @@ export default class coinPage extends Vue {
         this.data = {
           labels: this.statisticValueCoin.data.prices.map((e: Array<number>) => convertTimestamp(e[0])),
               label: this.currency.toUpperCase() + "/" + this.coin.name + ": " + this.coin.market_data.current_price[`${this.currency}`],
-              data: this.statisticValueCoin.data.prices.map((e: Array<number>) => e[1]),
+              data: this.statisticValueCoin.data.prices.map((e: Array<number>) => e[1].toFixed(this.amountDecimalsPlaces)),
         };
       } else {
         this.data = {
               label: this.currency.toUpperCase() + "/" + this.coin.name + ": " ,
-              data: this.statisticValueCoin.data.prices,
+              data: this.statisticValueCoin.data.prices.map((e:any) => [e[0],e[1].toFixed(this.amountDecimalsPlaces)]),
         };
       }
     }

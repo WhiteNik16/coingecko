@@ -1,6 +1,6 @@
 <template>
   <div>
-    <apexcharts type="line" width="70%" :options="options" :series="series"></apexcharts>
+    <apexcharts type="line" :width="isOpenAllFiltersWith" :options="options" :series="series"></apexcharts>
   </div>
 </template>
 <script>
@@ -55,7 +55,15 @@ export default {
 
     }
   },
-
+  computed:{
+    isOpenAllFiltersWith(){
+      console.log(document.documentElement.clientWidth)
+      if (document.documentElement.clientWidth <= 768) {
+        return '98%'
+      }
+      return '70%'
+    }
+  }
 }
 </script>
 <style></style>

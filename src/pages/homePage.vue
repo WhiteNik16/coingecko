@@ -15,7 +15,7 @@
         </select-node>
       </div>
 
-      <div class="coin">
+      <div class="coin"  v-if="isOpenAllFiltersWith">
         <div class="coin__name">
           <span>Name</span>
         </div>
@@ -32,6 +32,8 @@
       :key="coin.id"
       :coin="coin"
     ></v-coin>
+    <a-button @click="lastPage" :disabled="page === 1">lastPage</a-button>
+    <a-button @click="nextPage">nextPage</a-button>
   </div>
   <a-skeleton v-else />
 </template>
@@ -51,7 +53,7 @@ export default class homePage extends Vue {
   public searchValue = "";
 
   @Action
-  public getCoins!: (currency: string) => Promise<void>;
+  public getCoins!: ({currency, page}:Record<string, string>) => Promise<void>;
   @Action
   public getCoinsForSearch!: (currency: string) => Promise<void>;
 
@@ -62,6 +64,19 @@ export default class homePage extends Vue {
   @Getter
   public searchCoins!: ICoins;
 
+  private page=1
+
+  public async nextPage():Promise<void>{
+    this.page=this.page+1
+    await this.getCoins({ currency:this.currency, page: this.page.toString() })
+    window.scroll( 0, 0)
+  }
+  public async lastPage():Promise<void>{
+    this.page=this.page-1
+    await this.getCoins({ currency:this.currency, page: this.page.toString() })
+    window.scroll( 0, 0)
+  }
+
   get listCoins(): ICoins {
     return this.searchCoins.filter(
       (item) =>
@@ -71,7 +86,14 @@ export default class homePage extends Vue {
 
   async mounted() {
     await this.getCoinsForSearch("usd");
-    await this.getCoins("usd");
+    await this.getCoins({ currency:this.currency, page: this.page.toString() });
+  }
+  get isOpenAllFiltersWith(): boolean {
+    console.log(document.documentElement.clientWidth)
+    if (document.documentElement.clientWidth <= 768) {
+      return false
+    }
+    return true
   }
 }
 </script>
