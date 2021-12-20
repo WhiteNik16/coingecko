@@ -57,6 +57,7 @@ import { ICoins } from "@/types/types";
 export default class homePage extends Vue {
   public searchValue = "";
   public loading = false
+  public loadingObserver:any
   @Action
   public getCoins!: ({currency, page}:Record<string, string>) => Promise<void>;
   @Action
@@ -73,11 +74,13 @@ export default class homePage extends Vue {
   @Getter
   public width!: number;
 
+
+
   private page=1
 
 
-  public   setLoadingObserver() {
-    const loadingObserver = new IntersectionObserver (async entries => {
+  public setLoadingObserver() {
+   this.loadingObserver = new IntersectionObserver (async entries => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
           this.loading = true
@@ -87,8 +90,10 @@ export default class homePage extends Vue {
         }
       }
     });
-    loadingObserver.observe(document.querySelector('.loader')!)
+    this.loadingObserver.observe(document.querySelector('.loader')!)
+
   }
+
 
   get listCoins(): ICoins {
     return this.searchCoins.filter(
@@ -98,7 +103,9 @@ export default class homePage extends Vue {
         || item.symbol.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1
     );
   }
-
+  destroyed(){
+    this.loadingObserver.disconnect()
+  }
   async mounted() {
     if (!this.searchCoins){
       await this.getCoinsForSearch();
@@ -106,6 +113,7 @@ export default class homePage extends Vue {
     if (!this.coins){
       await this.getCoins({ currency:this.currency, page: this.page.toString() });
     }
+
     this.setLoadingObserver()
     // await this.scroll();
 

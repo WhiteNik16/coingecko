@@ -111,7 +111,7 @@
               {{ currencyItem.toUpperCase() }}
             </a-select-option>
           </a-select>
-          <a-input v-model="inputAmountCurrency" />
+          <a-input type="number" v-model="inputAmountCurrency" />
           <i
             class="fa fa-exchange coinPage__body-converter-items-exchange"
             aria-hidden="true"
@@ -120,7 +120,7 @@
           <span>{{ coin.name }}: {{ calcAmountCoin }}</span>
         </div>
         <div v-else class="coinPage__body-converter-items">
-          <a-input :placeholder="coin.name" v-model="inputAmountCoin" />
+          <a-input type="number" :placeholder="coin.name" v-model="inputAmountCoin" />
           <i
             class="fa fa-exchange coinPage__body-converter-items-exchange"
             aria-hidden="true"
