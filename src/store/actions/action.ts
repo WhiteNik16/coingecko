@@ -10,7 +10,7 @@ export default {
     currency: Currency
   ): void {
     commit("SET_CURRENCY", currency);
-    dispatch("getCoins", currency);
+    dispatch("getCoins", { currency });
   },
 
   async getCoinsForSearch(
@@ -18,22 +18,18 @@ export default {
     currency: Currency
   ): Promise<void> {
     try {
-      const response = await api.get<ICoins>("/coins/markets", {
-        params: {
-          vs_currency: currency,
-          order: "market_cap_desc",
-          per_page: 250,
-          page: 1,
-          sparkline: false,
-        },
-      });
+      const response = await api.get<ICoins>("/coins/list");
       const coins = response.data;
-      console.log(coins);
       commit("SET_COINS_FOR_SEARCH", coins);
     } catch (error) {
       const err = error as AxiosError<IResponseError>;
       console.log(err.response?.data);
     }
+  },
+
+  setWidth({commit}:ActionContext<IState, IState>, width:number):void{
+    commit("SET_WIDTH", width);
+
   },
 
   async getCoins(
@@ -50,8 +46,27 @@ export default {
         },
       });
       const coins = response.data;
-      console.log(coins);
       commit("SET_COINS", coins);
+    } catch (error) {
+      const err = error as AxiosError<IResponseError>;
+      console.log(err.response?.data);
+    }
+  },
+  async getNewCoins(
+    { commit }: ActionContext<IState, IState>, {currency, page}:Record<string, string>): Promise<void> {
+    try {
+      const response = await api.get<ICoins>("/coins/markets", {
+        params: {
+          vs_currency: currency,
+          order: "market_cap_desc",
+          per_page: 20,
+          page: page,
+          sparkline: false,
+        },
+      });
+      const coins = response.data;
+      console.log(coins);
+      commit("SET_NEW_COINS", coins);
     } catch (error) {
       const err = error as AxiosError<IResponseError>;
       console.log(err.response?.data);

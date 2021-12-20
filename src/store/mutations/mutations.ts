@@ -4,6 +4,9 @@ export default {
   SET_COINS: (state: IState, coins: ICoins) => {
     state.coins = coins;
   },
+  SET_NEW_COINS: (state: IState, coins: ICoins) => {
+    state.coins= state.coins?.concat(coins);
+  },
   SET_COINS_FOR_SEARCH: (state: IState, coins: ICoins) => {
     state.coinsForSearch = coins;
   },
@@ -13,4 +16,7 @@ export default {
   SET_CURRENCY: (state: IState, currency: Currency) => {
     state.currency = currency;
   },
+  SET_WIDTH:(state:IState, width: number) =>{
+    state.width = width
+  }
 };

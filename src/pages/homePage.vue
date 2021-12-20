@@ -1,18 +1,21 @@
 <template>
-  <div class="homePage" v-if="coins">
+  <div id="homePage" class="homePage" v-if="coins">
     <div class="coins-header">
       <div class="coins-header__search">
         <span>Search coin: </span
-        ><a-input placeholder="Bitcoin" type="text" v-model="searchValue" />
-        <select-node class="coins-header__select" v-if="searchValue">
-          <option
-            @click="$router.push({ name: 'coinPage', params: { id: coin.id } })"
-            v-for="coin in listCoins.slice(0, 20)"
-            :key="coin.id"
-          >
-            {{ coin.name }}
-          </option>
-        </select-node>
+        >
+        <div>
+          <a-input  placeholder="Bitcoin" type="text" v-model="searchValue" />
+          <select-node id="searchCoin" class="coins-header__select" v-if="searchValue">
+            <option
+              @click="$router.push({ name: 'coinPage', params: { id: coin.id } })"
+              v-for="coin in listCoins.slice(0, 20)"
+              :key="coin.id"
+            >
+              {{ coin.name }}
+            </option>
+          </select-node>
+        </div>
       </div>
 
       <div class="coin"  v-if="isOpenAllFiltersWith">
@@ -32,8 +35,9 @@
       :key="coin.id"
       :coin="coin"
     ></v-coin>
-    <a-button @click="lastPage" :disabled="page === 1">lastPage</a-button>
-    <a-button @click="nextPage">nextPage</a-button>
+    <div v-if="loading">
+      <a-spin />
+    </div>
   </div>
   <a-skeleton v-else />
 </template>
@@ -51,11 +55,13 @@ import { ICoins } from "@/types/types";
 })
 export default class homePage extends Vue {
   public searchValue = "";
-
+  public loading = false
   @Action
   public getCoins!: ({currency, page}:Record<string, string>) => Promise<void>;
   @Action
-  public getCoinsForSearch!: (currency: string) => Promise<void>;
+  public getNewCoins!: ({currency, page}:Record<string, string>) => Promise<void>;
+  @Action
+  public getCoinsForSearch!: () => Promise<void>;
 
   @Getter
   public coins!: ICoins;
@@ -63,34 +69,53 @@ export default class homePage extends Vue {
   public currency!: string;
   @Getter
   public searchCoins!: ICoins;
+  @Getter
+  public width!: number;
 
   private page=1
 
-  public async nextPage():Promise<void>{
-    this.page=this.page+1
-    await this.getCoins({ currency:this.currency, page: this.page.toString() })
-    window.scroll( 0, 0)
+  public async scroll():Promise<void>{
+    window.onscroll = async () => {
+
+      let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.scrollHeight;
+
+      if (bottomOfWindow) {
+        this.loading = true
+        this.page = this.page + 1
+        await this.getNewCoins({ page: this.page.toString(), currency: this.currency })
+        this.loading = false
+      }
+    };
   }
-  public async lastPage():Promise<void>{
-    this.page=this.page-1
-    await this.getCoins({ currency:this.currency, page: this.page.toString() })
-    window.scroll( 0, 0)
-  }
+
 
   get listCoins(): ICoins {
     return this.searchCoins.filter(
       (item) =>
         item.name.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1
+        || item.id.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1
+        || item.symbol.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1
     );
   }
 
+
+  destroyed():void{
+    window.onscroll = null
+  }
+
   async mounted() {
-    await this.getCoinsForSearch("usd");
-    await this.getCoins({ currency:this.currency, page: this.page.toString() });
+    if (!this.searchCoins){
+      await this.getCoinsForSearch();
+    }
+    if (!this.coins){
+      await this.getCoins({ currency:this.currency, page: this.page.toString() });
+    }
+
+    await this.scroll();
+
   }
   get isOpenAllFiltersWith(): boolean {
-    console.log(document.documentElement.clientWidth)
-    if (document.documentElement.clientWidth <= 768) {
+    if (this.width <= 768) {
       return false
     }
     return true

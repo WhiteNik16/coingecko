@@ -5,7 +5,7 @@
       @click="$router.push({ name: 'coinPage', params: { id: coin.id } })"
     >
       <div class="coin__name">
-       <span v-if="!isOpenAllFiltersWith">Name: </span> <span>{{ coin.name }}</span
+       <span v-if="!isOpenAllFiltersWith"></span> <span>{{ coin.name }}</span
         ><img :src="coin.image" />
       </div>
       <div class="coin__price">

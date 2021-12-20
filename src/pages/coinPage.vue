@@ -3,7 +3,7 @@
     <div class="coinPage__header">
       <div class="coinPage__header-coin">
         <img :src="coin.image.small" />
-        <span id="nameCoin"><span>Name:</span>{{ coin.name }}({{ coin.symbol }})</span>
+        <span id="nameCoin">{{ coin.name }}({{ coin.symbol }})</span>
         <div class="coinPage__header-coin-price">
           <span id="priceCoin"
             >{{
