@@ -12,6 +12,9 @@
     justify-content: space-around;
     margin-left: 20px;
     text-align: start;
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
     &-coin{
 
       height: 100%;
@@ -19,16 +22,26 @@
     &-coin-info{
 
       display: flex;
+      @media (max-width: 768px) {
+        flex-direction: column;
+      }
     }
     &-coin-info-item{
       margin: 10px;
       display: flex;
       flex-direction: column;
       //justify-content: flex-end;
+      @media (max-width: 768px) {
+       margin: 0 10px;
+      }
     }
     &-infoCommunity{
       width: 33%;
       height: 100%;
+      @media (max-width: 768px) {
+        width: auto;
+        margin-left: 10px;
+      }
     }
   }
   &__body{
@@ -49,6 +62,14 @@
       max-width: 120%;
       justify-content: center;
       min-width: 200px;
+      @media (max-width: 768px) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+        height: 140px;
+      }
+
       &-exchange{
         margin-left: 10px;
         position: relative;
@@ -88,4 +109,22 @@
 }
 .ant-input{
   width: auto !important;
+}
+.coinPage__body-chart-date-item{
+  display: inline;
+  @media (max-width: 768px) {
+    display: flex;
+    width: 200px;
+    justify-content: space-between;
+    margin: 5px auto;
+  }
+}
+#apexchartsLinexchart{
+  margin-right: auto;
+  margin-left: auto;
+}
+li{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

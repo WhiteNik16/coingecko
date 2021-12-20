@@ -16,6 +16,7 @@ export type ICoins = ICoin[];
 export interface IState {
   coinsForSearch: ICoins | null;
   coin: ICoin | null;
-  coins: ICoins | null;
+  coins: ICoins | null | undefined;
   currency: Currency;
+  width: number;
 }

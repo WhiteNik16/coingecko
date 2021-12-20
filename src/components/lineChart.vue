@@ -1,10 +1,11 @@
 <template>
   <div>
-    <apexcharts type="line" width="70%" :options="options" :series="series"></apexcharts>
+    <apexcharts type="line"  width="100%" :options="options" :series="series"></apexcharts>
   </div>
 </template>
 <script>
 import VueApexCharts from 'vue-apexcharts'
+import { mapGetters } from "vuex";
 export default {
   name: "lineChart",
   components: {
@@ -19,7 +20,6 @@ export default {
         colors: ['#00faf3'],
         xaxis: {
           type: "datetime",
-          // categories: this.chartData.labels
         }
       },
       title: {
@@ -30,12 +30,13 @@ export default {
           color: '#666'
         },
       },
-        series: [{
-          name:this.chartData.label,
-          data: this.chartData.data
-        }],
-      }
-    },
+      series: [{
+        name:this.chartData.label,
+        data: this.chartData.data
+      }],
+
+    }
+  },
   props: {
     chartData: {
       type: Object,
@@ -55,7 +56,18 @@ export default {
 
     }
   },
-
+  computed:{
+    ...mapGetters([
+      'width'
+    ]),
+    isOpenAllFiltersWith(){
+      console.log(document.documentElement.clientWidth)
+      if (this.width <= 768) {
+        return '98%'
+      }
+      return '70%'
+    }
+  }
 }
 </script>
 <style></style>

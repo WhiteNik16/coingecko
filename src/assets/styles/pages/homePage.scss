@@ -2,6 +2,7 @@
   padding-top: 30px;
   padding-bottom:5px ;
   &__search{
+    display: flex;
     span{
       font-size: 20px;
     }
@@ -31,4 +32,8 @@
     }
 
   }
+}
+#searchCoin{
+  position: absolute;
+  z-index: 2;
 }
