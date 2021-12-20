@@ -35,9 +35,10 @@
       :key="coin.id"
       :coin="coin"
     ></v-coin>
-    <div v-if="loading">
+    <div  v-if="loading">
       <a-spin />
     </div>
+    <div class="loader" style="padding: 1px"></div>
   </div>
   <a-skeleton v-else />
 </template>
@@ -74,20 +75,20 @@ export default class homePage extends Vue {
 
   private page=1
 
-  public async scroll():Promise<void>{
-    window.onscroll = async () => {
 
-      let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.scrollHeight;
-
-      if (bottomOfWindow) {
-        this.loading = true
-        this.page = this.page + 1
-        await this.getNewCoins({ page: this.page.toString(), currency: this.currency })
-        this.loading = false
+  public   setLoadingObserver() {
+    const loadingObserver = new IntersectionObserver (async entries => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          this.loading = true
+          this.page = this.page + 1
+          await this.getNewCoins({ page: this.page.toString(), currency: this.currency })
+          this.loading = false
+        }
       }
-    };
+    });
+    loadingObserver.observe(document.querySelector('.loader')!)
   }
-
 
   get listCoins(): ICoins {
     return this.searchCoins.filter(
@@ -98,11 +99,6 @@ export default class homePage extends Vue {
     );
   }
 
-
-  destroyed():void{
-    window.onscroll = null
-  }
-
   async mounted() {
     if (!this.searchCoins){
       await this.getCoinsForSearch();
@@ -110,8 +106,8 @@ export default class homePage extends Vue {
     if (!this.coins){
       await this.getCoins({ currency:this.currency, page: this.page.toString() });
     }
-
-    await this.scroll();
+    this.setLoadingObserver()
+    // await this.scroll();
 
   }
   get isOpenAllFiltersWith(): boolean {
