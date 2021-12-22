@@ -27,13 +27,14 @@ export default {
     }
   },
 
-  setWidth({commit}:ActionContext<IState, IState>, width:number):void{
-    commit("SET_WIDTH", width);
+  setWidth({ commit }: ActionContext<IState, IState>, width: number): void {
+    const isDesktop: boolean = (width <= 768) ? false : true;
+    commit("SET_WIDTH", isDesktop);
 
   },
 
   async getCoins(
-    { commit }: ActionContext<IState, IState>, {currency, page}:Record<string, string>): Promise<void> {
+    { commit }: ActionContext<IState, IState>, { currency, page }: Record<string, string>): Promise<void> {
     try {
       console.log(page);
       const response = await api.get<ICoins>("/coins/markets", {
@@ -42,8 +43,8 @@ export default {
           order: "market_cap_desc",
           per_page: 20,
           page: page,
-          sparkline: false,
-        },
+          sparkline: false
+        }
       });
       const coins = response.data;
       commit("SET_COINS", coins);
@@ -53,7 +54,7 @@ export default {
     }
   },
   async getNewCoins(
-    { commit }: ActionContext<IState, IState>, {currency, page}:Record<string, string>): Promise<void> {
+    { commit }: ActionContext<IState, IState>, { currency, page }: Record<string, string>): Promise<void> {
     try {
       const response = await api.get<ICoins>("/coins/markets", {
         params: {
@@ -61,8 +62,8 @@ export default {
           order: "market_cap_desc",
           per_page: 20,
           page: page,
-          sparkline: false,
-        },
+          sparkline: false
+        }
       });
       const coins = response.data;
       console.log(coins);
@@ -84,8 +85,8 @@ export default {
           market_data: true,
           community_data: true,
           developer_data: true,
-          sparkline: true,
-        },
+          sparkline: true
+        }
       });
       const coin = response.data;
       console.log(coin);
@@ -94,5 +95,5 @@ export default {
       const err = error as AxiosError<IResponseError>;
       console.log(err.response?.data);
     }
-  },
+  }
 };

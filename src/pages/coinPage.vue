@@ -1,20 +1,13 @@
 <template>
-  <div v-if="coin" class="coinPage">
+  <div v-if="!loading && coin" class="coinPage">
     <div class="coinPage__header">
       <div class="coinPage__header-coin">
         <img :src="coin.image.small" />
         <span id="nameCoin">{{ coin.name }}({{ coin.symbol }})</span>
         <div class="coinPage__header-coin-price">
-          <span id="priceCoin"
-            >{{
-              coin.market_data.current_price[`${currency}`].toFixed(
-                amountDecimalsPlaces
-              )
-            }}
-            {{ currency.toUpperCase() }}</span
-          >
+          <span id="priceCoin">{{ coinPrice }}{{ currency.toUpperCase() }}</span>
           <span :style="changeOfColor" id="change24h"
-            >{{
+          >{{
               coin.market_data.price_change_percentage_24h_in_currency.usd
             }}%</span
           >
@@ -66,8 +59,8 @@
         <p>
           Website:
           <a target="_blank" :href="coin.links.homepage[0]">{{
-            coin.links.homepage[0]
-          }}</a>
+              coin.links.homepage[0]
+            }}</a>
         </p>
         <p>
           Redit:
@@ -79,18 +72,18 @@
         <ul>
           <li>
             <a :href="coin.links.blockchain_site[0]" target="_blank">{{
-              coin.links.blockchain_site[0]
-            }}</a>
+                coin.links.blockchain_site[0]
+              }}</a>
           </li>
           <li>
             <a :href="coin.links.blockchain_site[1]" target="_blank">{{
-              coin.links.blockchain_site[1]
-            }}</a>
+                coin.links.blockchain_site[1]
+              }}</a>
           </li>
           <li>
             <a :href="coin.links.blockchain_site[2]" target="_blank">{{
-              coin.links.blockchain_site[2]
-            }}</a>
+                coin.links.blockchain_site[2]
+              }}</a>
           </li>
         </ul>
       </div>
@@ -138,37 +131,41 @@
                 :value="currencyItem"
               >
                 {{ currencyItem.toUpperCase() }}
-              </a-select-option> </a-select
-            >: {{ calcAmountCurrency.toLocaleString() }}
+              </a-select-option>
+            </a-select
+            >
+            : {{ calcAmountCurrency.toLocaleString() }}
           </div>
         </div>
       </div>
       <div class="coinPage__body-chart">
         <div :style="{ marginTop: '16px' }">
           <a-radio-group v-model="amountDays" default-value="30" size="small">
-            <a-radio-button value="7"> 7 days </a-radio-button>
-            <a-radio-button value="30"> 30 days </a-radio-button>
-            <a-radio-button value="90"> 90 days </a-radio-button>
+            <a-radio-button value="7"> 7 days</a-radio-button>
+            <a-radio-button value="30"> 30 days</a-radio-button>
+            <a-radio-button value="90"> 90 days</a-radio-button>
           </a-radio-group>
           <div class="coinPage__body-chart-date">
             <div class="coinPage__body-chart-date-item"><span> From: </span
-            ><a-input
-              :max="maxDateChartFrom"
-              v-model="chartDateFrom"
-              required
-              type="date"
-              size="small"
-            />
+            >
+              <a-input
+                :max="maxDateChartFrom"
+                v-model="chartDateFrom"
+                required
+                type="date"
+                size="small"
+              />
             </div>
             <div class="coinPage__body-chart-date-item">
             <span> To: </span
-            ><a-input
-              :max="maxDateChartTo"
-              v-model="chartDateTo"
-              required
-              type="date"
-              size="small"
-            />
+            >
+              <a-input
+                :max="maxDateChartTo"
+                v-model="chartDateTo"
+                required
+                type="date"
+                size="small"
+              />
             </div>
             <button class="ant-input-search-enter-button" @click="changeDate">
               OK
@@ -195,8 +192,8 @@ import { convertTimestamp } from "@/helpers/timeHelper";
 
 @Component({
   components: {
-    lineChart,
-  },
+    lineChart
+  }
 })
 export default class coinPage extends Vue {
   @Action
@@ -208,6 +205,7 @@ export default class coinPage extends Vue {
   @Getter
   public currency!: string;
 
+  public loading = true;
   public localCurrency = "";
   public inputAmountCurrency: number | string = "";
   public inputAmountCoin: number | string = "";
@@ -221,6 +219,7 @@ export default class coinPage extends Vue {
   public currenciesList = currencyList;
 
   async created() {
+    this.loading = true;
     await this.getCoin(this.$route.params.id);
     this.statisticValueCoin = await api.get(
       `/coins/${this.coin.id}/market_chart`,
@@ -228,16 +227,16 @@ export default class coinPage extends Vue {
         params: {
           vs_currency: this.currency,
           days: this.amountDays,
-          interval: "daily",
-        },
+          interval: "daily"
+        }
       }
     );
 
-    this.data = {
-          label: this.currency.toUpperCase() + "/" + this.coin.name + ": ",
-          data: this.statisticValueCoin.data.prices.map((e:any) => [e[0],e[1].toFixed(this.amountDecimalsPlaces)]) };
+    this.data = this.dataCharts;
     this.localCurrency = this.currency;
+    this.loading = false;
   }
+
   @Watch("updateCharts")
   async editAmountDays() {
     if (this.amountDays)
@@ -247,14 +246,11 @@ export default class coinPage extends Vue {
           params: {
             vs_currency: this.currency,
             days: this.amountDays,
-            interval: "daily",
-          },
+            interval: "daily"
+          }
         }
       );
-    this.data = {
-          label: this.currency.toUpperCase() + "/" + this.coin.name + ": " + this.coin.market_data.current_price[`${this.currency}`],
-          data: this.statisticValueCoin.data.prices.map((e:any) => [e[0],e[1].toFixed(this.amountDecimalsPlaces)]),
-    };
+    this.data = this.dataCharts;
   }
 
   get calcAmountCoin(): number {
@@ -263,6 +259,7 @@ export default class coinPage extends Vue {
       this.coin.market_data.current_price[`${this.localCurrency}`]
     );
   }
+
   get calcAmountCurrency(): number {
     return (
       +this.inputAmountCoin *
@@ -270,8 +267,21 @@ export default class coinPage extends Vue {
     );
   }
 
+  get coinPrice(): number {
+    return this.coin.market_data.current_price[`${this.currency}`].toFixed(
+      this.amountDecimalsPlaces
+    );
+  }
+
   get updateCharts(): string {
     return `${this.currency} ${this.amountDays}`;
+  }
+
+  get dataCharts(): Record<string, string> {
+    return this.data = {
+      label: this.currency.toUpperCase() + "/" + this.coin.name + ": ",
+      data: this.statisticValueCoin.data.prices.map((e: any) => [e[0], e[1].toFixed(this.amountDecimalsPlaces)])
+    };
   }
 
   get amountDecimalsPlaces(): number {
@@ -285,7 +295,7 @@ export default class coinPage extends Vue {
     if (
       this.coin.market_data.price_change_percentage_24h_in_currency[
         `${this.currency}`
-      ] > 0
+        ] > 0
     ) {
       return "color:green";
     }
@@ -295,6 +305,7 @@ export default class coinPage extends Vue {
   get maxDateChartTo(): string {
     return new Intl.DateTimeFormat("fr-CA").format(Date.now());
   }
+
   get maxDateChartFrom(): string {
     return new Intl.DateTimeFormat("fr-CA").format(Date.now() - 86400000);
   }
@@ -316,24 +327,14 @@ export default class coinPage extends Vue {
           params: {
             vs_currency: this.currency,
             from: chartDateUnixFrom,
-            to: chartDateUnixTo,
-          },
+            to: chartDateUnixTo
+          }
         }
       );
       console.log(this.statisticValueCoin);
       console.log(chartDateUnixFrom, chartDateUnixTo);
-      if (chartDateUnixTo - chartDateUnixFrom <= 86400) {
-        this.data = {
-          labels: this.statisticValueCoin.data.prices.map((e: Array<number>) => convertTimestamp(e[0])),
-              label: this.currency.toUpperCase() + "/" + this.coin.name + ": " + this.coin.market_data.current_price[`${this.currency}`],
-              data: this.statisticValueCoin.data.prices.map((e: Array<number>) => e[1].toFixed(this.amountDecimalsPlaces)),
-        };
-      } else {
-        this.data = {
-              label: this.currency.toUpperCase() + "/" + this.coin.name + ": " ,
-              data: this.statisticValueCoin.data.prices.map((e:any) => [e[0],e[1].toFixed(this.amountDecimalsPlaces)]),
-        };
-      }
+      this.data = this.dataCharts;
+
     }
   }
 }

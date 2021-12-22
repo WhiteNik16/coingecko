@@ -13,7 +13,7 @@ export default {
   currency(state: any) {
     return state.currency;
   },
-  width(state:IState){
-    return state.width
+  isDesktop(state: IState) {
+    return state.isDesktop;
   }
 };

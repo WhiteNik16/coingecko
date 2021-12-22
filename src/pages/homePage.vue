@@ -5,7 +5,7 @@
         <span>Search coin: </span
         >
         <div>
-          <a-input  placeholder="Bitcoin" type="text" v-model="searchValue" />
+          <a-input placeholder="Bitcoin" type="text" v-model="searchValue" />
           <select-node id="searchCoin" class="coins-header__select" v-if="searchValue">
             <option
               @click="$router.push({ name: 'coinPage', params: { id: coin.id } })"
@@ -18,7 +18,7 @@
         </div>
       </div>
 
-      <div class="coin"  v-if="isOpenAllFiltersWith">
+      <div class="coin" v-if="isDesktop">
         <div class="coin__name">
           <span>Name</span>
         </div>
@@ -35,7 +35,7 @@
       :key="coin.id"
       :coin="coin"
     ></v-coin>
-    <div  v-if="loading">
+    <div v-if="loading">
       <a-spin />
     </div>
     <div class="loader" style="padding: 1px"></div>
@@ -49,19 +49,20 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 import { Action, Getter } from "vuex-class";
 import vCoin from "@/components/coin.vue";
 import { ICoins } from "@/types/types";
+
 @Component({
   components: {
-    vCoin,
-  },
+    vCoin
+  }
 })
 export default class homePage extends Vue {
   public searchValue = "";
-  public loading = false
-  public loadingObserver:any
+  public loading = false;
+  public loadingObserver: any;
   @Action
-  public getCoins!: ({currency, page}:Record<string, string>) => Promise<void>;
+  public getCoins!: ({ currency, page }: Record<string, string>) => Promise<void>;
   @Action
-  public getNewCoins!: ({currency, page}:Record<string, string>) => Promise<void>;
+  public getNewCoins!: ({ currency, page }: Record<string, string>) => Promise<void>;
   @Action
   public getCoinsForSearch!: () => Promise<void>;
 
@@ -72,58 +73,55 @@ export default class homePage extends Vue {
   @Getter
   public searchCoins!: ICoins;
   @Getter
-  public width!: number;
+  public isDesktop!: boolean;
 
 
-
-  private page=1
+  private page = 1;
 
 
   public setLoadingObserver() {
-   this.loadingObserver = new IntersectionObserver (async entries => {
+    this.loadingObserver = new IntersectionObserver(async entries => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
-          this.loading = true
-          this.page = this.page + 1
-          await this.getNewCoins({ page: this.page.toString(), currency: this.currency })
-          this.loading = false
+          this.loading = true;
+          this.page = this.page + 1;
+          await this.getNewCoins({ page: this.page.toString(), currency: this.currency });
+          this.loading = false;
         }
       }
     });
-    this.loadingObserver.observe(document.querySelector('.loader')!)
+    this.loadingObserver.observe(document.querySelector(".loader")!);
 
   }
 
 
   get listCoins(): ICoins {
+    const searchValueLowerCase = this.searchValue.toLowerCase();
     return this.searchCoins.filter(
       (item) =>
-        item.name.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1
-        || item.id.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1
-        || item.symbol.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1
+        item.name.toLowerCase().indexOf(searchValueLowerCase) !== -1
+        || item.id.toLowerCase().indexOf(searchValueLowerCase) !== -1
+        || item.symbol.toLowerCase().indexOf(searchValueLowerCase) !== -1
     );
   }
-  destroyed(){
-    this.loadingObserver.disconnect()
+
+  destroyed() {
+    this.loadingObserver.disconnect();
   }
+
   async mounted() {
-    if (!this.searchCoins){
+    if (!this.searchCoins) {
       await this.getCoinsForSearch();
     }
-    if (!this.coins){
-      await this.getCoins({ currency:this.currency, page: this.page.toString() });
+    if (!this.coins) {
+      await this.getCoins({ currency: this.currency, page: this.page.toString() });
     }
 
-    this.setLoadingObserver()
-    // await this.scroll();
+    this.setLoadingObserver();
 
   }
-  get isOpenAllFiltersWith(): boolean {
-    if (this.width <= 768) {
-      return false
-    }
-    return true
-  }
+
+
 }
 </script>
 

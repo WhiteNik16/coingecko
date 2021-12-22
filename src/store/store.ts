@@ -13,9 +13,9 @@ export default new Vuex.Store<IState>({
     coins: null,
     coin: null,
     currency: ECurrency.usd,
-    width:0,
+    isDesktop: true
   },
   actions,
   mutations,
-  getters,
+  getters
 });

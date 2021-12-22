@@ -5,8 +5,8 @@
       @click="$router.push({ name: 'coinPage', params: { id: coin.id } })"
     >
       <div class="coin__name">
-       <span v-if="!isOpenAllFiltersWith"></span> <span>{{ coin.name }}</span
-        ><img :src="coin.image" />
+        <span v-if="!isOpenAllFiltersWith"></span> <span>{{ coin.name }}</span
+      ><img :src="coin.image" />
       </div>
       <div class="coin__price">
         <span v-if="!isOpenAllFiltersWith">Price: </span>
@@ -32,6 +32,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { Getter } from "vuex-class";
 import { ICoins } from "@/types/types";
+
 @Component
 export default class coin extends Vue {
   @Prop() readonly coin: any;
@@ -47,12 +48,13 @@ export default class coin extends Vue {
     }
     return "color:red";
   }
+
   get isOpenAllFiltersWith(): boolean {
-    console.log(document.documentElement.clientWidth)
+    console.log(document.documentElement.clientWidth);
     if (document.documentElement.clientWidth <= 768) {
-      return false
+      return false;
     }
-    return true
+    return true;
   }
 }
 </script>

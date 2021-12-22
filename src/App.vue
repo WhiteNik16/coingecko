@@ -7,31 +7,33 @@
 <script>
 import vHeader from "@/components/layouts/header";
 import { mapActions } from "vuex";
+
 export default {
   name: "App",
   components: {
-    vHeader,
+    vHeader
   },
-  data(){
-    return{
+  data() {
+    return {
       windowWidth: window.innerWidth
-    }
+    };
   },
-  methods:{
+  methods: {
     ...mapActions([
       "setWidth"
     ]),
     resizeListener() {
-      this.windowWidth = window.innerWidth
-      this.setWidth(this.windowWidth)
+      this.windowWidth = window.innerWidth;
+      this.setWidth(this.windowWidth);
     }
   },
-  mounted() {
-    window.addEventListener('resize', this.resizeListener)
+  async mounted() {
+    await this.resizeListener();
+    window.addEventListener("resize", this.resizeListener);
   },
   destroyed() {
-    window.removeEventListener('resize', this.resizeListener)
-  },
+    window.removeEventListener("resize", this.resizeListener);
+  }
 };
 </script>
 <style lang="scss" src="../src/assets/styles/App.scss"></style>

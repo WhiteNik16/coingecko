@@ -1,17 +1,20 @@
-.coins{
+.coins {
 
   padding-top: 15px;
 
-  padding-bottom:5px ;
-  :hover{
+  padding-bottom: 5px;
+
+  :hover {
     background: cadetblue;
   }
-  img{
-    margin-left:5px ;
+
+  img {
+    margin-left: 5px;
     height: 25px;
   }
 }
-.coin{
+
+.coin {
   margin-left: 15px;
   display: flex;
   justify-content: space-around;
@@ -25,7 +28,8 @@
     margin-top: 20px;
     flex-direction: column;
   }
-  &__name, &__price ,&__change_24h ,&__total-volume ,&__change_market-cap{
+
+  &__name, &__price, &__change_24h, &__total-volume, &__change_market-cap {
     width: 200px;
     text-align: start;
     @media (max-width: 768px) {

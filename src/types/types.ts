@@ -3,14 +3,17 @@ export enum ECurrency {
   eur = "eur",
   uah = "uah",
 }
+
 export type Currency = keyof typeof ECurrency;
 
 export interface ICoin {
   id: string;
   image: Record<string, string> | string;
   market_data: Record<string, any>;
+
   [k: string]: any;
 }
+
 export type ICoins = ICoin[];
 
 export interface IState {
@@ -18,5 +21,5 @@ export interface IState {
   coin: ICoin | null;
   coins: ICoins | null | undefined;
   currency: Currency;
-  width: number;
+  isDesktop: boolean;
 }

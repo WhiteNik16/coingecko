@@ -1,12 +1,14 @@
-.coinPage{
+.coinPage {
   display: flex;
   flex-direction: column;
   padding-top: 30px;
   color: azure;
-  p{
+
+  p {
     font-size: 16px;
   }
-  &__header{
+
+  &__header {
     display: flex;
     flex: 1 1 auto;
     justify-content: space-around;
@@ -15,27 +17,30 @@
     @media (max-width: 768px) {
       flex-direction: column;
     }
-    &-coin{
+
+    &-coin {
 
       height: 100%;
     }
-    &-coin-info{
+
+    &-coin-info {
 
       display: flex;
       @media (max-width: 768px) {
         flex-direction: column;
       }
     }
-    &-coin-info-item{
+
+    &-coin-info-item {
       margin: 10px;
       display: flex;
       flex-direction: column;
-      //justify-content: flex-end;
       @media (max-width: 768px) {
-       margin: 0 10px;
+        margin: 0 10px;
       }
     }
-    &-infoCommunity{
+
+    &-infoCommunity {
       width: 33%;
       height: 100%;
       @media (max-width: 768px) {
@@ -44,20 +49,24 @@
       }
     }
   }
-  &__body{
 
-    &-chart-date{
+  &__body {
+
+    &-chart-date {
       padding-left: 5%;
       display: inline;
-      span{
+
+      span {
         font-size: 17px;
       }
-       button{
+
+      button {
         margin-left: 10px;
-         color: #011633;
+        color: #011633;
       }
     }
-    &-converter-items{
+
+    &-converter-items {
       display: flex;
       max-width: 120%;
       justify-content: center;
@@ -70,21 +79,24 @@
         height: 140px;
       }
 
-      &-exchange{
+      &-exchange {
         margin-left: 10px;
         position: relative;
-        top:7px;
+        top: 7px;
       }
-      &-select{
+
+      &-select {
         margin-left: 10px;
         font-size: 20px;
       }
-      a-select, a-input{
+
+      a-select, a-input {
         display: block;
         max-width: 30%;
 
       }
-      span{
+
+      span {
         display: block;
         margin-left: 10px;
         //padding-top: 10px;
@@ -92,25 +104,30 @@
       }
     }
   }
-  #nameCoin{
+
+  #nameCoin {
     padding-left: 10px;
     color: azure;
     font-size: 24px;
   }
-  #priceCoin{
+
+  #priceCoin {
     padding-left: 10px;
     color: azure;
     font-size: 30px;
   }
-  #change24h{
+
+  #change24h {
     font-size: 20px;
     padding-left: 8px;
   }
 }
-.ant-input{
+
+.ant-input {
   width: auto !important;
 }
-.coinPage__body-chart-date-item{
+
+.coinPage__body-chart-date-item {
   display: inline;
   @media (max-width: 768px) {
     display: flex;
@@ -119,11 +136,13 @@
     margin: 5px auto;
   }
 }
-#apexchartsLinexchart{
+
+#apexchartsLinexchart {
   margin-right: auto;
   margin-left: auto;
 }
-li{
+
+li {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
