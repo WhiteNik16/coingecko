@@ -6,7 +6,7 @@
     >
       <div class="coin__name">
        <span v-if="!isOpenAllFiltersWith"></span> <span>{{ coin.name }}</span
-        ><img :src="coin.image" />
+        ><img class="coin__image" :src="coin.image" />
       </div>
       <div class="coin__price">
         <span v-if="!isOpenAllFiltersWith">Price: </span>
@@ -48,11 +48,7 @@ export default class coin extends Vue {
     return "color:red";
   }
   get isOpenAllFiltersWith(): boolean {
-    console.log(document.documentElement.clientWidth)
-    if (document.documentElement.clientWidth <= 768) {
-      return false
-    }
-    return true
+    return document.documentElement.clientWidth > 768;
   }
 }
 </script>

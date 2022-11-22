@@ -2,15 +2,16 @@
   <div id="homePage" class="homePage" v-if="coins">
     <div class="coins-header">
       <div class="coins-header__search">
-        <span>Search coin: </span
+        <span class="coins-header__search-tittle">Search coin: </span
         >
         <div>
-          <a-input  placeholder="Bitcoin" type="text" v-model="searchValue" />
+          <a-input placeholder="Bitcoin" type="text" v-model="searchValue"/>
           <select-node id="searchCoin" class="coins-header__select" v-if="searchValue">
             <option
-              @click="$router.push({ name: 'coinPage', params: { id: coin.id } })"
-              v-for="coin in listCoins.slice(0, 20)"
-              :key="coin.id"
+                class="coins-header__select-options"
+                @click="$router.push({ name: 'coinPage', params: { id: coin.id } })"
+                v-for="coin in listCoins.slice(0, 20)"
+                :key="coin.id"
             >
               {{ coin.name }}
             </option>
@@ -18,7 +19,7 @@
         </div>
       </div>
 
-      <div class="coin"  v-if="isOpenAllFiltersWith">
+      <div class="coin" v-if="isOpenAllFiltersWith">
         <div class="coin__name">
           <span>Name</span>
         </div>
@@ -30,25 +31,26 @@
     </div>
 
     <v-coin
-      style="position: relative"
-      v-for="coin in coins"
-      :key="coin.id"
-      :coin="coin"
+        style="position: relative"
+        v-for="coin in coins"
+        :key="coin.id"
+        :coin="coin"
     ></v-coin>
-    <div  v-if="loading">
-      <a-spin />
+    <div v-if="loading">
+      <a-spin/>
     </div>
     <div class="loader" style="padding: 1px"></div>
   </div>
-  <a-skeleton v-else />
+  <a-skeleton v-else/>
 </template>
 
 <script lang="ts">
-import { api } from "@/api/config";
-import { Component, Vue, Watch } from "vue-property-decorator";
-import { Action, Getter } from "vuex-class";
+import {api} from "@/api/config";
+import {Component, Vue, Watch} from "vue-property-decorator";
+import {Action, Getter} from "vuex-class";
 import vCoin from "@/components/coin.vue";
-import { ICoins } from "@/types/types";
+import {ICoins} from "@/types/types";
+
 @Component({
   components: {
     vCoin,
@@ -57,11 +59,11 @@ import { ICoins } from "@/types/types";
 export default class homePage extends Vue {
   public searchValue = "";
   public loading = false
-  public loadingObserver:any
+  public loadingObserver: any
   @Action
-  public getCoins!: ({currency, page}:Record<string, string>) => Promise<void>;
+  public getCoins!: ({currency, page}: Record<string, string>) => Promise<void>;
   @Action
-  public getNewCoins!: ({currency, page}:Record<string, string>) => Promise<void>;
+  public getNewCoins!: ({currency, page}: Record<string, string>) => Promise<void>;
   @Action
   public getCoinsForSearch!: () => Promise<void>;
 
@@ -75,17 +77,16 @@ export default class homePage extends Vue {
   public width!: number;
 
 
-
-  private page=1
+  private page = 1
 
 
   public setLoadingObserver() {
-   this.loadingObserver = new IntersectionObserver (async entries => {
+    this.loadingObserver = new IntersectionObserver(async entries => {
       for (const entry of entries) {
         if (entry.isIntersecting) {
           this.loading = true
           this.page = this.page + 1
-          await this.getNewCoins({ page: this.page.toString(), currency: this.currency })
+          await this.getNewCoins({page: this.page.toString(), currency: this.currency})
           this.loading = false
         }
       }
@@ -97,32 +98,32 @@ export default class homePage extends Vue {
 
   get listCoins(): ICoins {
     return this.searchCoins.filter(
-      (item) =>
-        item.name.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1
-        || item.id.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1
-        || item.symbol.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1
+        (item) =>
+            item.name.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1
+            || item.id.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1
+            || item.symbol.toLowerCase().indexOf(this.searchValue.toLowerCase()) !== -1
     );
   }
-  destroyed(){
+
+  destroyed() {
     this.loadingObserver.disconnect()
   }
+
   async mounted() {
-    if (!this.searchCoins){
+    if (!this.searchCoins) {
       await this.getCoinsForSearch();
     }
-    if (!this.coins){
-      await this.getCoins({ currency:this.currency, page: this.page.toString() });
+    if (!this.coins) {
+      await this.getCoins({currency: this.currency, page: this.page.toString()});
     }
 
     this.setLoadingObserver()
-    // await this.scroll();
 
   }
+
   get isOpenAllFiltersWith(): boolean {
-    if (this.width <= 768) {
-      return false
-    }
-    return true
+    return this.width > 768;
+
   }
 }
 </script>

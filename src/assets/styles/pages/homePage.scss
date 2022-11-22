@@ -3,7 +3,7 @@
   padding-bottom:5px ;
   &__search{
     display: flex;
-    span{
+    &-tittle{
       font-size: 20px;
     }
     position: absolute;
@@ -15,7 +15,7 @@
     display: block;
     min-width: 203px;
 
-    option{
+    &-options{
 
       width: 204px;
       color: #011633;

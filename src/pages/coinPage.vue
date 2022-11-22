@@ -117,7 +117,7 @@
             aria-hidden="true"
             @click="stateConverter = !stateConverter"
           ></i>
-          <span>{{ coin.name }}: {{ calcAmountCoin }}</span>
+          <span class="coinPage__body-converter-item">{{ coin.name }}: {{ calcAmountCoin }}</span>
         </div>
         <div v-else class="coinPage__body-converter-items">
           <a-input type="number" :placeholder="coin.name" v-model="inputAmountCoin" />
@@ -170,7 +170,7 @@
               size="small"
             />
             </div>
-            <button class="ant-input-search-enter-button" @click="changeDate">
+            <button class="ant-input-search-enter-button coinPage__body-chart-date-button" @click="changeDate">
               OK
             </button>
           </div>
