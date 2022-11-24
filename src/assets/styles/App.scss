@@ -1,8 +1,8 @@
+@import "mixins/mixins";
 @import "./layouts/header";
 @import "./pages/homePage";
 @import "./pages/coin";
 @import "./pages/coinPage";
-
 
 #app{
   font-family: Avenir, Helvetica, Arial, sans-serif;

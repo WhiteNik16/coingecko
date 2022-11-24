@@ -1,0 +1,7 @@
+
+@mixin for-tablet-and-phone {
+  @media (max-width: 768px) {
+    @content
+  }
+}
+

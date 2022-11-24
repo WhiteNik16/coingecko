@@ -11,7 +11,7 @@
     justify-content: space-around;
     margin-left: 20px;
     text-align: start;
-    @media (max-width: 768px) {
+    @include for-tablet-and-phone {
       flex-direction: column;
     }
 
@@ -21,7 +21,7 @@
 
     &-coin-info {
       display: flex;
-      @media (max-width: 768px) {
+      @include for-tablet-and-phone {
         flex-direction: column;
       }
     }
@@ -30,7 +30,7 @@
       margin: 10px;
       display: flex;
       flex-direction: column;
-      @media (max-width: 768px) {
+      @include for-tablet-and-phone {
         margin: 0 10px;
       }
     }
@@ -38,7 +38,7 @@
     &-infoCommunity {
       width: 33%;
       height: 100%;
-      @media (max-width: 768px) {
+      @include for-tablet-and-phone {
         width: auto;
         margin-left: 10px;
       }
@@ -66,7 +66,7 @@
       max-width: 120%;
       justify-content: center;
       min-width: 200px;
-      @media (max-width: 768px) {
+      @include for-tablet-and-phone {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -117,7 +117,7 @@
 
 .coinPage__body-chart-date-item {
   display: inline;
-  @media (max-width: 768px) {
+  @include for-tablet-and-phone {
     display: flex;
     width: 200px;
     justify-content: space-between;
